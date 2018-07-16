@@ -54,4 +54,4 @@ node_modules/
 config/database.yml
 config/application.yml
 
-/coverage 
+/coverage
