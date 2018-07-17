@@ -1,9 +1,13 @@
 language: ruby
+cache:
+- bundler
 rvm:
 - 2.5.1
 before_script:
-- bundle exec rake db:create --all
+- cp config/database.travis.yml config/database.yml
+- bundle exec rake db:create
 - bundle exec rake db:migrate
+- bundle exec rake assets:precompile
 script:
 - bundle exec rake ci:tests
 services:
@@ -17,9 +21,7 @@ deploy:
   provider: heroku
   api_key:
     secure: loghgBWu5wAYLBhh+zW0LCQa/KelXndBCBPJmKa+xdOvtDEruaMl539EGVMN0zwxQNxM38MC97ZDy8V0mXJK75kwfoMAhIoloSzTSKaTWFQdOU3lzZaoN+5rg5ofG8mSpxoP/1EXm/Fz5DMCdt9JJaYzdIBnpiJiutHzzUKfsJh2Em07RgjVxUPT/HuopsV8RR86PZOA4Eg8mUtbRguoN0IsrOMO+KPN1zV7NlhogOOEDhFh77OIn5PfXe4A5Tf4SfPySvXpU11hsJlcttxpoXGAVsdjWOqWy8j1xWkPSxb92RJjnirRJKb9tZ+DVRpu3YCl8dbBQTZmXaIe0TU6IHpcupwJ0M4Ju32eJE0sHJ0Z97F0lRQfrQxhW6unJNgJ+EVTQt+Xk+T+jE13z3e3h0obqnP99ylF91O357SumTI344JNqsKB0VKDT00K3wjHjIiVIaRcHl7yfRJtlBItjiupwfPWF5jeHh2sAAKRsu2DLtDzwMbDeWu5SB1JBSTVExNwcZTx+TGohMJrRpfS4pcZv8EHjkkkOEOJAEt7hPumXTSaW1nWnxfJztoAE6QIwE2wHyUtEyM1MrAK9CCA//Q4GHM1ZWvmB2pam+sNQD9d44XbU5fEwt4NY/XzSWFZeao7xx1l1M2MM9i97u3gpe6sxjF4eMK2iSANrog1JPA=
-  app:
-    develop: ci_try
-    master: ci-try
+  app: ci_try
   on:
     repo: alejandrotoro/ci_try
   run:
